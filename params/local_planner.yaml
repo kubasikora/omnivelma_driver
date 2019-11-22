@@ -1,0 +1,48 @@
+# The maximum y velocity for the robot in m/s
+max_vel_y: 0.3
+# The minimum y velocity for the robot in m/s
+min_vel_y: 0.1
+# the maximum rotational velocity allowed for the base in radians/sec
+max_rotational_vel: 0.3
+# The absolute value of the minimum rotational velocity for the robot in rad/s
+min_vel_theta: 0.1
+# The maximum x velocity for the robot in m/s
+max_vel_x: 0.3
+# The minimum x velocity for the robot in m/s
+min_vel_x: 0.1
+
+# The tolerance in radians for the controller in yaw/rotation when achieving its goa
+yaw_goal_tolerance: 0.2
+# The tolerance in meters for the controller in the x & y distance when achieving a goal
+xy_goal_tolerance: 0.25
+# If goal tolerance is latched, if the robot ever reaches the goal xy location 
+# it will simply rotate in place, 
+# even if it ends up outside the goal tolerance while it is doing so.
+latch_xy_goal_tolerance: false
+
+# The amount of time to forward-simulate trajectories in seconds
+sim_time: 5
+# The step size, in meters, to take between points on a given trajectory
+sim_granularity: 0.025
+# The number of samples to use when exploring the x velocity space
+vx_samples: 50
+# The number of samples to use when exploring the theta velocity space
+vth_samples: 5
+# The frequency at which this controller will be called in Hz.
+controller_frequency: 4
+
+#cost =
+#  path_distance_bias * (distance to path from the endpoint of the trajectory in meters)
+#  + goal_distance_bias * (distance to local goal from the endpoint of the trajectory in meters)
+#  + occdist_scale * (maximum obstacle cost along the trajectory in obstacle cost (0-254))
+
+# The weighting for how much the controller should stay close to the path it was given
+path_distance_bias: 20.0
+# The weighting for how much the controller should attempt to reach its local goal, also controls speed
+goal_distance_bias: 15.0
+# The weighting for how much the controller should attempt to avoid obstacles
+occdist_scale: 0.01
+# The distance from the center point of the robot to place an additional scoring point, in meters
+forward_point_distance: 0.01
+# Whether or not to publish the cost grid that the planner will use when planning. 
+publish_cost_grid: true
