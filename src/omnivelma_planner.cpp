@@ -3,7 +3,8 @@
 #include <vector>
 #include <costmap_2d/costmap_2d_ros.h>
 #include <global_planner/planner_core.h>
-#include <dwa_local_planner/dwa_planner_ros.h>
+//#include <dwa_local_planner/dwa_planner_ros.h>
+#include <teb_local_planner/teb_local_planner_ros.h>
 #include <tf2_ros/transform_listener.h>
 #include "tf2_ros/buffer.h"
 #include "omnivelma_driver/STPT.h"
@@ -25,7 +26,8 @@ std::unique_ptr<global_planner::GlobalPlanner> globalPlanner;
 std::unique_ptr<tf2_ros::Buffer> localBuffer;
 std::unique_ptr<tf2_ros::TransformListener> tfLocal;
 std::unique_ptr<costmap_2d::Costmap2DROS> localCostmap;
-std::unique_ptr<dwa_local_planner::DWAPlannerROS> localPlanner;
+//std::unique_ptr<dwa_local_planner::DWAPlannerROS> localPlanner;
+std::unique_ptr<teb_local_planner::TebLocalPlannerROS> localPlanner;
 
 // nodes
 ros::ServiceServer stptService;
@@ -38,7 +40,7 @@ ros::Publisher velocityPublisher;
 /*
 * callback do serwera serwisu pozycji zadanej robota
 */
-bool stptServiceCallback(omnivelma_driver::STPT::Request  &req, omnivelma_driver::STPT::Response &res);
+bool stptServiceCallback(omnivelma_driver::STPT::Request &req, omnivelma_driver::STPT::Response &res);
 
 /*
 * callback subscribera danych odometrii
@@ -76,7 +78,8 @@ int main(int argc, char* argv[]){
 	localBuffer.reset(new tf2_ros::Buffer(ros::Duration(10), true));
 	tfLocal.reset(new tf2_ros::TransformListener(*localBuffer));
 	localCostmap.reset(new costmap_2d::Costmap2DROS("local_costmap", *localBuffer));
-	localPlanner.reset(new dwa_local_planner::DWAPlannerROS());
+	//localPlanner.reset(new dwa_local_planner::DWAPlannerROS());
+	localPlanner.reset(new teb_local_planner::TebLocalPlannerROS());
 	localPlanner->initialize("local_planner", localBuffer.get(), localCostmap.get());
 
 	stptService = nodeHandle.advertiseService("omniplanner/go_to_stpt", stptServiceCallback);

@@ -6,9 +6,9 @@ robot_base_frame: torso_base
 transform_tolerance: 3.0
 
 # The frequency in Hz for the map to be updated.
-update_frequency: 10
+update_frequency: 5
 # The frequency in Hz for the map to be publish display information.
-publish_frequency: 10
+publish_frequency: 5
 # Whether or not to use a rolling window version of the costmap.
 rolling_window: false
 # If true the full costmap is published to "~<name>/costmap" every update. 
@@ -17,6 +17,7 @@ always_send_full_costmap: true
 footprint: [[-0.36, -0.3775], [0.36, -0.3775], [0.36, 0.3775], [-0.36, 0.3775]]
 # map is static
 static_map: true
+
 # topic of the map publishing
 map_topic: map
 
@@ -42,6 +43,6 @@ inflation_layer:
    # enable layer
    enabled: true
    # The radius in meters to which the map inflates obstacle cost values.
-   inflation_radius: 0.7
+   inflation_radius: 0.2
    # A scaling factor to apply to cost values during inflation.
-   cost_scaling_factor: 4.0
+   cost_scaling_factor: 1.0

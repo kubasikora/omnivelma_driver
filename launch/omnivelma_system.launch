@@ -1,12 +1,17 @@
 <launch>
+	<arg name="world_name" default="$(find omnivelma_driver)/data/gazebo/worlds/simple_test_world.world" />
+	<arg name="map_name" default="$(find omnivelma_driver)/map/simple_test_map.yaml" />
+
 	<!-- launch omnivelma simulation -->
-	<include file="$(find velma_common)/launch/velma_system.launch" />
+	<include file="$(find velma_common)/launch/velma_system.launch">
+		<arg name="world_name" value="$(arg world_name)" />
+	</include>
 
 	<!-- static map -> odom tf publisher -->
 	<node name="map_odom_tf_publisher" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map odom 10" />
 
 	<!-- run map server -->
-	<node name="map_server" pkg="map_server" type="map_server"  args="$(find omnivelma_driver)/map_scan/example_scan.yaml"/>
+	<node name="map_server" pkg="map_server" type="map_server"  args="$(arg map_name)"/>
 
 	<!-- run planner with configuration -->
 	<node name="velmobil_planner" pkg="omnivelma_driver" type="omniplanner" output="screen">
@@ -15,4 +20,24 @@
 		<rosparam file="$(find omnivelma_driver)/params/global_planner.yaml" command="load" ns ="global_planner" />
 		<rosparam file="$(find omnivelma_driver)/params/local_planner.yaml" command="load" ns ="local_planner" />
 	</node>
+
+<!-- 	<node name="gmapping" pkg="gmapping" type="slam_gmapping" args="scan:=/monokl_r/scan _base_link:=monokl_r_heart">
+		<rosparam file="$(find omnivelma_driver)/params/gmapping.yaml" command="load" ns ="slam_gmapping" />
+	</node> -->
+
+<!-- 	<include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
+		<arg name="link_name" value="cabinet_door::right_door" />
+		<arg name="frame_id" value="cabinet" />
+	</include>
+
+	<include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
+		<arg name="link_name" value="cafe_table::link" />
+		<arg name="frame_id" value="table" />
+	</include>
+
+	<include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
+		<arg name="link_name" value="beer::link" />
+		<arg name="frame_id" value="object" />
+	</include> -->
+
 </launch>

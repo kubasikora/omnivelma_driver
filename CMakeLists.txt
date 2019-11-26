@@ -21,6 +21,9 @@ find_package(catkin REQUIRED COMPONENTS
   base_local_planner
   rotate_recovery
   dwa_local_planner
+  teb_local_planner
+  tf2_geometry_msgs
+  mbf_costmap_core
 )
 
 ## System dependencies are found with CMake's conventions

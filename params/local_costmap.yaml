@@ -6,9 +6,9 @@ robot_base_frame: torso_base
 transform_tolerance: 3.0
 
 # The frequency in Hz for the map to be updated.
-update_frequency: 10
+update_frequency: 5
 # The frequency in Hz for the map to be publish display information.
-publish_frequency: 10
+publish_frequency: 5
 # Whether or not to use a rolling window version of the costmap.
 rolling_window: true
 # If true the full costmap is published to "~<name>/costmap" every update. 
@@ -16,9 +16,9 @@ always_send_full_costmap: true
 # Robot footprint polygon
 footprint: [[-0.36, -0.3775], [0.36, -0.3775], [0.36, 0.3775], [-0.36, 0.3775]]
 # The height of the map in meters.
-height: 3.0
+height: 5.0
 # The width of the map in meters.
-width: 3.0
+width: 5.0
 # map is voxel type
 #map_type: voxel
 
@@ -37,16 +37,16 @@ obstacle_layer:
     observation_sources: scan
 # scan source
     scan:
-        topic: laser_scan
+        topic: /monokl_r/scan
 # The topic on which sensor data comes in for this source. Defaults to the name of the source.
 # The frame of the origin of the sensor.
-        sensor_frame: base_laser_link
+        sensor_frame: monokl_r_heart
 # The data type associated with the topic.
         data_type: LaserScan
 # Whether or not this observation should be used to clear out freespace.
         clearing: true
 # if true, each pixel has one of 3 states: lethal obstacle, free, or unknown.
-# #Kondziu: maybe set to false?
+# maybe set to false?
     track_unknown_space: false
 # end
 
@@ -57,9 +57,9 @@ inflation_layer:
     enabled: true
 # enable layer
 # The radius in meters to which the map inflates obstacle cost values.
-    inflation_radius: 0.07
+    inflation_radius: 1.0
 # A scaling factor to apply to cost values during inflation.
-    cost_scaling_factor: 6.0
+    cost_scaling_factor: 10.0
 # tracking unknown space on the local map
     track_unknown_space: true
 # end
