@@ -57,9 +57,9 @@ inflation_layer:
     enabled: true
 # enable layer
 # The radius in meters to which the map inflates obstacle cost values.
-    inflation_radius: 1.0
+    inflation_radius: 0.4
 # A scaling factor to apply to cost values during inflation.
-    cost_scaling_factor: 10.0
+    cost_scaling_factor: 2.0
 # tracking unknown space on the local map
     track_unknown_space: true
 # end

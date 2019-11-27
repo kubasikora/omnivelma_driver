@@ -162,7 +162,7 @@ std::string planMove(geometry_msgs::PoseStamped& setpoint){
 				case 1:
 					std::cout << "Try 1: Clearing local costmap and run simple rotate behaviour" << std::endl;
 					localCostmap->resetLayers();
-					rotateRecoveryBehavior();
+					//rotateRecoveryBehavior();
 					ros::spinOnce();
 					continue;
 				case 2:
