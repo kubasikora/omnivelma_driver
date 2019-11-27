@@ -2,12 +2,24 @@
 	<arg name="world_name" default="$(find omnivelma_driver)/data/gazebo/worlds/simple_test_world.world" />
 	<arg name="map_name" default="$(find omnivelma_driver)/map/simple_test_map.yaml" />
 
+	<!-- manipulative part of the system -->
+
 	<!-- launch omnivelma simulation -->
 	<include file="$(find velma_common)/launch/velma_system.launch">
 		<arg name="world_name" value="$(arg world_name)" />
 	</include>
 
-	<!-- static map -> odom tf publisher -->
+	<!-- octomap server -->
+	<include file="$(find velma_common)/launch/octomap_server.launch" />
+
+	<!-- trajectory planner -->
+	<include file="$(find velma_ros_plugin)/launch/velma_planner.launch" />
+
+
+
+	<!-- mobile part of the system -->
+
+	<!-- static map to odom tf publisher -->
 	<node name="map_odom_tf_publisher" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map odom 10" />
 
 	<!-- run map server -->
@@ -21,5 +33,10 @@
 		<rosparam file="$(find omnivelma_driver)/params/local_planner.yaml" command="load" ns ="local_planner" />
 	</node>
 
+	
+
+	<!-- misc -->
+
+	<!-- position of important objects in gazebo -->
 	<node name="object_markers" pkg="omnivelma_driver" type="object_marker" output="screen" />
 </launch>
