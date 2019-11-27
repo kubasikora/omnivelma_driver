@@ -21,23 +21,5 @@
 		<rosparam file="$(find omnivelma_driver)/params/local_planner.yaml" command="load" ns ="local_planner" />
 	</node>
 
-<!-- 	<node name="gmapping" pkg="gmapping" type="slam_gmapping" args="scan:=/monokl_r/scan _base_link:=monokl_r_heart">
-		<rosparam file="$(find omnivelma_driver)/params/gmapping.yaml" command="load" ns ="slam_gmapping" />
-	</node> -->
-
-<!-- 	<include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
-		<arg name="link_name" value="cabinet_door::right_door" />
-		<arg name="frame_id" value="cabinet" />
-	</include>
-
-	<include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
-		<arg name="link_name" value="cafe_table::link" />
-		<arg name="frame_id" value="table" />
-	</include>
-
-	<include file="$(find rcprg_gazebo_utils)/launch/gazebo_publish_ros_tf_object.launch">
-		<arg name="link_name" value="beer::link" />
-		<arg name="frame_id" value="object" />
-	</include> -->
-
+	<node name="object_markers" pkg="omnivelma_driver" type="object_marker" output="screen" />
 </launch>

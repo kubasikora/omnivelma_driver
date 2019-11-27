@@ -1,0 +1,75 @@
+#!/usr/bin/env python2
+
+import rospy
+import tf
+import tf2_ros
+import threading
+
+from geometry_msgs.msg import *
+from gazebo_msgs.srv import *
+
+class Publisher:
+	def __init__(self, link_name, frame_id, reference_frame):
+		self.link_name = link_name
+		self.frame_id = frame_id
+		self.reference_frame = reference_frame
+
+		self.service_name = '/gazebo/get_link_state'
+		self.get_link_state = None
+		self.broadcaster = tf2_ros.TransformBroadcaster()
+
+	def spin(self):
+		while not rospy.is_shutdown():
+			req = GetLinkStateRequest()
+			req.link_name = self.link_name
+			req.reference_frame = self.reference_frame
+			if self.get_link_state is None:
+				try:
+					rospy.wait_for_service(self.service_name, 5.0)
+					self.get_link_state = rospy.ServiceProxy(self.service_name, GetLinkState)
+				except:
+					continue
+
+			try:
+				res = self.get_link_state(req)
+			except rospy.service.ServiceException as e:
+				self.get_link_state = None
+				print(e)
+				continue
+
+			if res.success == False:
+				raise Exception(self.service_name)
+
+			t = TransformStamped()
+			t.header.stamp = rospy.Time.now()
+			t.header.frame_id = self.reference_frame
+			t.child_frame_id = self.frame_id
+			t.transform.translation.x = res.link_state.pose.position.x
+			t.transform.translation.y = res.link_state.pose.position.y
+			t.transform.translation.z = res.link_state.pose.position.z
+			t.transform.rotation = res.link_state.pose.orientation
+			self.broadcaster.sendTransform(t)
+
+			try:
+				rospy.sleep(0.1)
+			except:
+				break
+
+def thread_fun(link_name, frame_id, reference_frame):
+	publisher = Publisher(link_name, frame_id, reference_frame)
+	publisher.spin()
+
+if __name__ == "__main__":
+	rospy.init_node("object_marker", anonymous=True)
+
+	tableThread = threading.Thread(target=thread_fun, args=("cafe_table::link", "table", "map"))
+	cabinetThread = threading.Thread(target=thread_fun, args=("cabinet_door::right_door", "cabinet", "map"))
+	objectThread = threading.Thread(target=thread_fun, args=("beer::link", "object", "map"))
+
+	tableThread.start()
+	cabinetThread.start()
+	objectThread.start()
+
+	print("Publishing position of test objects")
+
+	rospy.spin()
