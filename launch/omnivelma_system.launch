@@ -1,6 +1,6 @@
 <launch>
-	<arg name="world_name" default="$(find omnivelma_driver)/data/gazebo/worlds/simple_test_world.world" />
-	<arg name="map_name" default="$(find omnivelma_driver)/map/simple_test_map.yaml" />
+	<arg name="world_name" default="$(find omnivelma_driver)/data/gazebo/worlds/doors_asym.world" />
+	<arg name="map_name" default="$(find omnivelma_driver)/map_scan/doors_asym_scan.yaml" />
 
 	<!-- manipulative part of the system -->
 
@@ -11,6 +11,9 @@
 
 	<!-- octomap server -->
 	<include file="$(find velma_common)/launch/octomap_server.launch" />
+<!-- 	<include file="$(find velma_common)/launch/octomap_offline_server.launch"> 
+		<arg name="octomap_file" value="$(find omnivelma_test)/data/map.bt" />
+	</include> -->
 
 	<!-- trajectory planner -->
 	<include file="$(find velma_ros_plugin)/launch/velma_planner.launch" />
@@ -38,5 +41,5 @@
 	<!-- misc -->
 
 	<!-- position of important objects in gazebo -->
-	<node name="object_markers" pkg="omnivelma_driver" type="object_marker" output="screen" />
+	<!-- <node name="object_markers" pkg="omnivelma_driver" type="object_marker" output="screen" /> -->
 </launch>
